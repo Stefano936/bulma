@@ -1,0 +1,97 @@
+.header{
+    background-color: lightskyblue;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.header h1 {
+    padding-right: 20px;
+    padding-left: 10px; 
+}
+
+h1 {
+    margin: 0px !important;
+    padding: 0px;
+    color: white;
+}
+
+.buttons{
+    margin: 0px !important;
+    padding: 0px;
+    color: white;
+    padding-right: 30px;
+}
+
+#boxs{
+    background-color: grey;
+    padding-left: 30px;
+    padding-top: 9px;
+    padding-bottom: 10px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    padding-right: 30px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #559155;
+}
+
+.box {
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.box.dragging {
+    opacity: 0.5;
+}
+
+.column {
+    padding: 10px;
+    border: 1px dashed #ccc;
+}
+
+.column.drag-over {
+    background-color: #f0f8ff;
+}
+
+.add-task-button{
+    background-color:lightskyblue;
+    padding: 10px;
+    border-radius: 1200px;
+    color:black;
+    font-size: medium;
+    font-weight: bold;
+}
