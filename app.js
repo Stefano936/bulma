@@ -20,7 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
     addTaskButtons.forEach(button => {
         button.addEventListener('click', () => addNewTask(button));
     });
+
+    if (darkModeButton) {
+        console.log('Dark mode button found');
+        darkModeButton.addEventListener('click', toggleDarkMode);
+    } else {
+        console.error('Dark mode button not found');
+    }
 });
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    document.querySelector('.header').classList.toggle('dark-mode');
+    document.querySelectorAll('.box').forEach(box => box.classList.toggle('dark-mode'));
+    document.querySelectorAll('.column').forEach(column => column.classList.toggle('dark-mode'));
+    document.querySelectorAll('.add-task-button').forEach(button => button.classList.toggle('dark-mode'));
+}
 
 function dragStart(e) {
     e.dataTransfer.setData('text/plain', e.target.id);
@@ -52,7 +67,6 @@ function dragDrop(e) {
     if (draggingTask && e.target.classList.contains('column')) {
         e.target.appendChild(draggingTask);
         
-        // Mover el botón al final de la columna
         const addTaskButton = e.target.querySelector('.add-task-button');
         if (addTaskButton) {
             e.target.appendChild(addTaskButton);
@@ -174,4 +188,4 @@ function addNewTask(button) {
     
     // Editar la nueva tarea inmediatamente
     editTask(newTask);
-}d
+}

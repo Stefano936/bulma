@@ -29,6 +29,15 @@ h1 {
     padding-left: 30px;
     padding-top: 9px;
     padding-bottom: 10px;
+    margin-right: 10px;
+}
+
+#boxss{
+    padding-left: 30px;
+    background-color: black;
+    padding-top: 9px;
+    padding-bottom: 10px;
+
 }
 
 .dropdown {
@@ -94,4 +103,27 @@ h1 {
     color:black;
     font-size: medium;
     font-weight: bold;
+}
+
+body.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+.header.dark-mode {
+    background-color: darkslategray;
+}
+
+.box.dark-mode {
+    background-color: #333;
+    color: white;
+}
+
+.column.dark-mode {
+    background-color: #444;
+}
+
+.add-task-button.dark-mode {
+    background-color: darkslategray;
+    color: white;
 }
