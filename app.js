@@ -51,6 +51,12 @@ function dragDrop(e) {
     const draggingTask = document.querySelector('.dragging');
     if (draggingTask && e.target.classList.contains('column')) {
         e.target.appendChild(draggingTask);
+        
+        // Mover el botón al final de la columna
+        const addTaskButton = e.target.querySelector('.add-task-button');
+        if (addTaskButton) {
+            e.target.appendChild(addTaskButton);
+        }
     }
 }
 
@@ -159,6 +165,13 @@ function addNewTask(button) {
     newTask.addEventListener('dragstart', dragStart);
     newTask.addEventListener('dragend', dragEnd);
     newTask.addEventListener('click', () => editTask(newTask));
-    column.appendChild(newTask);
+    
+    // Insertar la nueva tarea antes del botón
+    column.insertBefore(newTask, button);
+    
+    // Mover el botón al final de la columna
+    column.appendChild(button);
+    
+    // Editar la nueva tarea inmediatamente
     editTask(newTask);
-}
+}d
