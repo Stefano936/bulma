@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const tasks = document.querySelectorAll('.box');
     const columns = document.querySelectorAll('.column');
     const addTaskButtons = document.querySelectorAll('.add-task-button');
-    const tasksResponse = [];
 
     tasks.forEach(task => {
         task.setAttribute('draggable', true);
