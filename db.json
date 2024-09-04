@@ -1,6 +1,22 @@
-{
+    {
     "tasks": [
-        { "title": "First Task", "description":"description","assigned": "Juan","priority":"High","dueDate":"10/07/2025"},
-        { "title": "Second Task","description":"description", "assigned": "María","priority":"High","dueDate":"10/07/2025"}
+        {
+            "title": "First Task",
+            "description": "description",
+            "assigned": "Usuario 1",
+            "priority": "Alta",
+            "dueDate": "2025-07-10",
+            "state": "backlog",
+            "id": "3422"
+        },
+        {
+            "title": "Second Task",
+            "description": "description",
+            "assigned": "Usuario 3",
+            "priority": "Alta",
+            "dueDate": "2025-07-11",
+            "state": "backlog",
+            "id": "ff4c"
+        }
     ]
 }

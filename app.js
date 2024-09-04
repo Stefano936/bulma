@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tasks = document.querySelectorAll('.box');
     const columns = document.querySelectorAll('.column');
     const addTaskButtons = document.querySelectorAll('.add-task-button');
+    const tasksResponse = [];
 
     tasks.forEach(task => {
         task.setAttribute('draggable', true);
@@ -168,6 +169,24 @@ function saveTask(form, taskElement) {
     `;
 
     taskElement.onclick = () => editTask(taskElement);
+
+    const taskData = {
+        title,
+        description,
+        assigned,
+        priority,
+        dueDate
+    };
+
+    fetch('/tasks', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(taskData)
+    }).then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch(error => console.error('Error:', error));
 }
 
 function addNewTask(button) {
@@ -189,3 +208,38 @@ function addNewTask(button) {
     // Editar la nueva tarea inmediatamente
     editTask(newTask);
 }
+
+let url = "http://localhost:3000/tasks";
+
+async function fetchDataAW() {
+    try {
+        const response = await fetch(url, { method: "GET" });
+        const data = await response.json(); 
+        tasksResponse = data
+        return data
+    } catch (error) {
+        console.log("Error fetching data: ", error);
+    }
+}
+
+lista =  fetchDataAW().then(() => {
+    tasksResponse.map((t) => {
+        console.log(t)
+        if (t.state != undefined) {
+            let column = document.getElementById(t.state)
+            const newTask = document.createElement('div');
+            newTask.className = 'box';
+            newTask.setAttribute('draggable', true);
+            newTask.textContent = t.title;
+            newTask.dataset.title = t.title;
+            newTask.dataset.description = t.description;
+            newTask.dataset.assigned = t.assigned;
+            newTask.dataset.priority = t.priority;
+            newTask.dataset.dueDate = t.dueDate;
+            newTask.addEventListener('dragstart', dragStart);
+            newTask.addEventListener('dragend', dragEnd);
+            newTask.addEventListener('click', () => editTask(newTask));
+            column.insertBefore(newTask, column.querySelector('.add-task-button'));
+        }
+    })
+})
