@@ -1,0 +1,6 @@
+{
+    "tasks": [
+        { "title": "First Task", "description":"description","assigned": "Juan","priority":"High","dueDate":"10/07/2025"},
+        { "title": "Second Task","description":"description", "assigned": "María","priority":"High","dueDate":"10/07/2025"}
+    ]
+}
