@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (e) => {
+    loadTask();
     const tasks = document.querySelectorAll('.box');
     const columns = document.querySelectorAll('.column');
     const addTaskButtons = document.querySelectorAll('.add-task-button');
@@ -152,12 +153,14 @@ function saveTask(form, taskElement) {
     const assigned = form.querySelector('select').value;
     const priority = form.querySelectorAll('select')[1].value;
     const dueDate = form.querySelector('input[type="date"]').value;
+    const state = taskElement.dataset.id ? taskElement.dataset.state : form.parentElement.parentElement.id;
 
     taskElement.dataset.title = title;
     taskElement.dataset.description = description;
     taskElement.dataset.assigned = assigned;
     taskElement.dataset.priority = priority;
     taskElement.dataset.dueDate = dueDate;
+    taskElement.dataset.state = state;
 
     taskElement.innerHTML = `
         <strong>${title || 'Untitled Task'}</strong><br>
@@ -174,17 +177,64 @@ function saveTask(form, taskElement) {
         description,
         assigned,
         priority,
-        dueDate
+        dueDate,
+        state
     };
 
-    fetch('/tasks', {
-        method: 'POST',
+    const taskId = taskElement.dataset.id;
+    const method = taskId ? 'PUT' : 'POST';
+    const url = taskId ? `http://localhost:3000/tasks/${taskId}` : 'http://localhost:3000/tasks';
+
+    fetch(url, {
+        method: method,
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(taskData)
     }).then(response => response.json())
-        .then(data => console.log('Success:', data))
+        .then(data => {
+            console.log('Success:', data);
+            if (!taskId) {
+                taskElement.dataset.id = data.id;
+                taskElement.dataset.state = data.state;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function loadTask() {
+    fetch('http://localhost:3000/tasks')
+        .then(response => response.json())
+        .then(tasks => {
+            tasks.forEach(task => {
+                const column = document.querySelector(`#column-${task.priority}`);
+                const taskElement = document.createElement('div');
+                taskElement.className = 'box';
+                taskElement.setAttribute('draggable', true);
+                
+                taskElement.dataset.id = task.id;
+                taskElement.dataset.title = task.title;
+                taskElement.dataset.description = task.description;
+                taskElement.dataset.assigned = task.assigned;
+                taskElement.dataset.priority = task.priority;
+                taskElement.dataset.dueDate = task.dueDate;
+                taskElement.dataset.state = task.state;
+
+                taskElement.innerHTML = `
+                    <strong>${task.title || 'Untitled Task'}</strong><br>
+                    <em>${task.description}</em><br>
+                    Asignado a: ${task.assigned}<br>
+                    Prioridad: ${task.priority}<br>
+                    Fecha límite: ${task.dueDate}
+                `;
+
+                taskElement.addEventListener('dragstart', dragStart);
+                taskElement.addEventListener('dragend', dragEnd);
+                taskElement.addEventListener('click', () => editTask(taskElement));
+
+                column.appendChild(taskElement);
+            });
+        })
         .catch(error => console.error('Error:', error));
 }
 
@@ -229,12 +279,16 @@ lista =  fetchDataAW().then(() => {
             const newTask = document.createElement('div');
             newTask.className = 'box';
             newTask.setAttribute('draggable', true);
+
             newTask.textContent = t.title;
+            newTask.dataset.id = t.id;
             newTask.dataset.title = t.title;
             newTask.dataset.description = t.description;
             newTask.dataset.assigned = t.assigned;
             newTask.dataset.priority = t.priority;
             newTask.dataset.dueDate = t.dueDate;
+            newTask.dataset.state = t.state;
+
             newTask.addEventListener('dragstart', dragStart);
             newTask.addEventListener('dragend', dragEnd);
             newTask.addEventListener('click', () => editTask(newTask));
